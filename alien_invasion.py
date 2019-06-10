@@ -18,9 +18,6 @@ def run_game():
         # Make many bullets
         bullets = Group()
 
-        #make alien bullets
-        alien_bullets = Group()
-
         #make an alien
         aliens = Group()
 
@@ -37,9 +34,8 @@ def run_game():
                 if stats.game_active:
                         ship.update()
                         gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-                        gf.update_alien_bullets(alien_bullets)
                         gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
                 #redraw the screen
-                gf.update_screen(ai_settings, screen, ship, aliens, bullets, alien_bullets)
+                gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 run_game()

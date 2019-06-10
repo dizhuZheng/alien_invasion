@@ -4,6 +4,7 @@ from bullet import Bullet
 from alien_bullet import AlienBullet
 from alien import Alien
 from random import randint
+from pygame.sprite import Group
 from time import sleep
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
@@ -43,16 +44,13 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets, alien_bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets):
     """update images on the screen each pass through the loop"""
     screen.fill(ai_settings.bg_color)
 
     #redraw all bulltes behind ship and aliens
     for bullet in bullets.sprites():
             bullet.draw_bullet()
-
-    for alien_bullet in alien_bullets.sprites():
-        alien_bullet.draw_alien_bullet()
 
     ship.blitme()
     aliens.draw(screen)
@@ -116,6 +114,7 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien.rect.x = alien.x
     alien.rect.y = alien.y
     aliens.add(alien)
+    alien_bullets = Group()
 
 
 def get_number_rows(ai_settings, ship_height, alien_height):
