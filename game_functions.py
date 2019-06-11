@@ -51,14 +51,16 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
     """start a new game when the player clicks play"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
+        pygame.mouse.set_visible(False)
         if play_button.rect.collidepoint(mouse_x, mouse_y):
-            pygame.mouse.set_visible(False)
             stats.reset_stats()
             stats.game_active = True
 
+            #empy the list of aliens and bullets
             aliens.empty()
             bullets.empty()
 
+            #create new fleet and center the ship
             create_fleet(ai_settings, screen, ship, aliens)
             ship.center_ship()
 
