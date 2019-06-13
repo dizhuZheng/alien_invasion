@@ -144,23 +144,23 @@ def create_fleet(ai_settings, screen, ship, aliens):
     #create the first row of aliens
     for j in range(number_rows):
         for i in range(number_aliens_x):
-                create_alien(ai_settings, screen, aliens, i, j)
+                create_alien(ai_settings, screen, ship, aliens, i, j)
 
 
 def get_number_aliens_x(ai_settings, alien_width):
     """determine the number of aliens taht fit in a row"""
-    available_space_x = ai_settings.screen_width - 2 * alien_width
-    number_aliens_x = int(available_space_x / (2 * alien_width))
+    available_space_x = ai_settings.screen_width - 4 * alien_width
+    number_aliens_x = int(available_space_x / (3 * alien_width))
     return number_aliens_x
 
 
-def create_alien(ai_settings, screen, aliens, alien_number, row_number):
+def create_alien(ai_settings, screen, ship, aliens, alien_number, row_number):
     """create an alien and place it in the row"""
     alien = Alien(ai_settings, screen, 1)
     alien_width = alien.rect.width
     alien_height = alien.rect.height
-    alien.x = alien_width + 2 * alien_width * alien_number
-    alien.y = alien_height + 2 * alien_height * row_number
+    alien.x = ship.rect.width * 2 + alien_width + 2 * alien_width * alien_number
+    alien.y = ship.rect.height + alien_height + 2 * alien_height * row_number
     alien.rect.x = alien.x
     alien.rect.y = alien.y
     aliens.add(alien)

@@ -24,6 +24,8 @@ class Settings():
 
         self.score_scale = 1.5
 
+        self.grenade_speed_factor = 3
+
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
