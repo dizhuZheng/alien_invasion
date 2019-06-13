@@ -15,6 +15,10 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
+    elif event.key == pygame.K_UP:
+        ship.moving_up = True
+    elif event.key == pygame.K_DOWN:
+        ship.moving_down = True
     elif event.key == pygame.K_q:
         sys.exit()
 
@@ -25,6 +29,10 @@ def check_keyup_events(event, ship):
         ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
+    elif event.key == pygame.K_UP:
+        ship.moving_up = False
+    elif event.key == pygame.K_DOWN:
+        ship.moving_down = False
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -139,11 +147,11 @@ def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
     #create an alien and find the number of aliens in a row.
     alien = Alien(ai_settings, screen, 1)
-    number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
-    number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.y)
+    # number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
+    # number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.y)
     #create the first row of aliens
-    for j in range(number_rows):
-        for i in range(number_aliens_x):
+    for j in range(2):
+        for i in range(5):
                 create_alien(ai_settings, screen, ship, aliens, i, j)
 
 

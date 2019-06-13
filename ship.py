@@ -22,14 +22,18 @@ class Ship(Sprite):
 
         #store a decimal value for ship's center
         self.center = float(self.rect.centerx)
+        self.vert = float(self.rect.centery)
 
         #movement flag
         self.moving_right = False
         self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
 
     def center_ship(self):
         """center the ship on the screen"""
         self.center = self. screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
 
     def update(self):
         """update the ship's position based on the movement flag"""
@@ -39,8 +43,16 @@ class Ship(Sprite):
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
 
+        if self.moving_up and self.rect.top > 0:
+            self.vert -= self.ai_settings.ship_speed_factor
+
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.vert += self.ai_settings.ship_speed_factor
+
         #update rect obj from self.center
         self.rect.centerx = self.center
+        self.rect.centery = self.vert
+
 
     def blitme(self):
         """draw the ship at its current location"""
