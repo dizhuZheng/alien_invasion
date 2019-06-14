@@ -123,6 +123,8 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
     if len(aliens) == 0:
         bullets.empty()
+        stats.level += 1
+        sb.prep_level()
         create_fleet(ai_settings, screen, ship, aliens)
 
     #get rid of bullets that have disappeared
