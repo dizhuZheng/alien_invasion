@@ -7,7 +7,7 @@ from random import randint
 from pygame.sprite import Group
 from time import sleep
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets):
     """respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -21,6 +21,17 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_down = True
     elif event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_p:
+        stats.reset_stats()
+        stats.game_active = True
+        sb.prep_score()
+        sb.prep_high_score()
+        sb.prep_level()
+        sb.prep_ships()
+        aliens.empty()
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
 
 
 def check_keyup_events(event, ship):
@@ -47,7 +58,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -64,17 +75,14 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         if play_button.rect.collidepoint(mouse_x, mouse_y):
             stats.reset_stats()
             stats.game_active = True
-
             #reset the scoreboard images.
             sb.prep_score()
             sb.prep_high_score()
             sb.prep_level()
             sb.prep_ships()
-
             #empy the list of aliens and bullets
             aliens.empty()
             bullets.empty()
-
             #create new fleet and center the ship
             create_fleet(ai_settings, screen, ship, aliens)
             ship.center_ship()
