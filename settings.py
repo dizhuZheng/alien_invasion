@@ -20,7 +20,7 @@ class Settings():
         self.single_drop_speed = 55
 
         #how quickly the game speeds up
-        self.speedup_scale = 2
+        self.speedup_scale = 1.5
 
         self.score_scale = 1.5
 
