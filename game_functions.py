@@ -178,7 +178,7 @@ def create_alien(ai_settings, screen, ship, aliens, alien_number, row_number):
     alien_width = alien.rect.width
     alien_height = alien.rect.height
     alien.x = ship.rect.width * 2 + alien_width + 2 * alien_width * alien_number
-    alien.y = ship.rect.height + alien_height + 2 * alien_height * row_number
+    alien.y = ship.rect.height + alien_height + 3 * alien_height * row_number
     alien.rect.x = alien.x
     alien.rect.y = alien.y
     aliens.add(alien)

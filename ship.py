@@ -20,7 +20,7 @@ class Ship(Sprite):
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        #store a decimal value for ship's center
+        #store a decimal value for ship's centerx and centery
         self.center = float(self.rect.centerx)
         self.vert = float(self.rect.centery)
 
@@ -32,8 +32,9 @@ class Ship(Sprite):
 
     def center_ship(self):
         """center the ship on the screen"""
-        self.center = self. screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
+        self.center = self.screen_rect.centerx
+        #centery isn't rect.bottom, should use centerx and centery to locate the surface
+        self.vert = self.screen_rect.bottom - self.rect.height/2
 
     def update(self):
         """update the ship's position based on the movement flag"""
@@ -43,7 +44,7 @@ class Ship(Sprite):
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
 
-        if self.moving_up and self.rect.top > 0:
+        if self.moving_up and self.rect.top > self.screen_rect.top:
             self.vert -= self.ai_settings.ship_speed_factor
 
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
