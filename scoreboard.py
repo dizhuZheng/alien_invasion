@@ -15,7 +15,7 @@ class Scoreboard():
         #Font settings for scoring infos
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 28)
-
+        self.font2 = pygame.font.SysFont(None, 88)
         #prepare the initial score image.
         self.prep_score()
         self.prep_high_score()
@@ -58,7 +58,8 @@ class Scoreboard():
 
     def prep_level(self):
         """Turn the level into a rendered image"""
-        self.level_image = self.font.render(str(self.stats.level), True, self.text_color, self.ai_settings.bg_color)
+        level_str = "{} {:,}".format('Level:', self.stats.level)
+        self.level_image = self.font.render(level_str, True, self.text_color, self.ai_settings.bg_color)
 
         #position the level below the score
         self.level_rect = self.level_image.get_rect()
@@ -74,3 +75,11 @@ class Scoreboard():
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)
+
+
+    def game_over(self):
+        self.msg2_image = self.font2.render('Game  Over', True, (0, 128, 0))
+        self.msg2_image_rect = self.msg2_image.get_rect()
+        self.msg2_image_rect.centerx = self.screen_rect.centerx
+        self.msg2_image_rect.centery = self.screen_rect.centery+100
+        self.screen.blit(self.msg2_image, self.msg2_image_rect)

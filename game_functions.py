@@ -103,6 +103,8 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     #draw the play button if the game is inactive.
     if not stats.game_active:
         play_button.draw_button()
+        if stats.ships_left == 0:
+            sb.game_over()
     #make the most recently drawn screen visible.
     pygame.display.flip()
 
@@ -142,6 +144,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         #increse level.
         stats.level += 1
         sb.prep_level()
+        ship.center_ship()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
