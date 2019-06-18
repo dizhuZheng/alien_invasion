@@ -6,6 +6,7 @@ from alien import Alien
 from random import randint
 from pygame.sprite import Group
 from time import sleep
+from bonus import Bonus
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets):
     """respond to keypresses"""
@@ -53,7 +54,7 @@ def fire_bullet(ai_settings, screen, ship, bullets):
             bullets.add(new_bullet)
 
 
-def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -64,6 +65,9 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
+        elif event.type == COUNT:
+            new_bonus = Bonus(screen, 10, 10)
+            bonus.add(new_bonus)
 
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
@@ -88,7 +92,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button):
     """update images on the screen each pass through the loop"""
     screen.fill(ai_settings.bg_color)
 
@@ -99,6 +103,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     ship.blitme()
     aliens.draw(screen)
     sb.show_score()
+    for b in bonus:
+        b.update()
+        b.draw()
+
 
     #draw the play button if the game is inactive.
     if not stats.game_active:
