@@ -11,14 +11,18 @@ from bonus import Bonus
 def run_game():
         #initialize the game and create a screen obj
         pygame.init()
+
         ai_settings = Settings()
+
         screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
+
         pygame.display.set_caption('Alien Invasion')
         #make a ship
         ship = Ship(ai_settings, screen)
 
         COUNT = pygame.USEREVENT + 1
-        pygame.time.set_timer(COUNT, 2000)
+
+        pygame.time.set_timer(COUNT, 5000)
 
         # Make many bullets
         bullets = Group()
@@ -47,6 +51,7 @@ def run_game():
                 if stats.game_active:
                         ship.update()
                         gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
+                        gf.update_bonus(ai_settings, bonus, stats, sb, ship)
                         gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets)
                 #redraw the screen
                 gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button)

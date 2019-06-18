@@ -1,17 +1,18 @@
 import pygame
 from pygame.sprite import Sprite
+import random
 
 class Bonus(Sprite):
 
-    def __init__(self, screen, rect_x, rect_bottom):
+    def __init__(self, screen, ai_settings):
         """Create a bullet at the ship's current position"""
         super().__init__()
         self.screen = screen
-        self.rect = pygame.Rect(0, 0, 5, 5)
-        self.rect.center = (rect_x, rect_bottom)
+        self.rect = pygame.Rect(0, 0, 20, 20)
+        self.rect.center = (random.randint(0, ai_settings.screen_width), 0)
         self.y = float(self.rect.y)
-        self.color = (200, 200, 200)
-        self.speed_factor = 5
+        self.color = (244, 134, 66)
+        self.speed_factor = 10
 
     def update(self):
         """move the bullet up the screen"""
@@ -22,4 +23,4 @@ class Bonus(Sprite):
 
     def draw(self):
         """draw the bullet to screen"""
-        pygame.draw.rect(self.screen, self.color, self.rect, 5)
+        pygame.draw.rect(self.screen, self.color, self.rect)
