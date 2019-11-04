@@ -29,6 +29,7 @@ def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bu
         sb.prep_high_score()
         sb.prep_level()
         sb.prep_ships()
+        sb.prep_clock()
         aliens.empty()
         bullets.empty()
         create_fleet(ai_settings, screen, ship, aliens)
@@ -81,6 +82,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             stats.game_active = True
             #reset the scoreboard images.
             sb.prep_score()
+            sb.prep_clock()
             sb.prep_high_score()
             sb.prep_level()
             sb.prep_ships()
@@ -93,26 +95,30 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button, quit_button, p_button, over_button):
     """update images on the screen each pass through the loop"""
-    screen.fill(ai_settings.bg_color)
+    #make the most recently drawn screen visible.
+    screen.blit(ai_settings.image, (0,0))
 
     #redraw all bulltes behind ship and aliens
     for bullet in bullets.sprites():
         bullet.draw_bullet()
 
     for b in bonus.sprites():
-        b.draw()
+        b.blitme()
 
     ship.blitme()
     aliens.draw(screen)
     sb.show_score()
-    #draw the play button if the game is inactive.
+
     if not stats.game_active:
-        play_button.draw_button()
-        if stats.ships_left == 0:
-            sb.game_over()
-    #make the most recently drawn screen visible.
+        if stats.ships_left == 0 or stats.timer == 0:
+            over_button.draw_button()
+            p_button.draw_button()
+            quit_button.draw_button()
+        else:
+            play_button.draw_button()
+
     pygame.display.flip()
 
 

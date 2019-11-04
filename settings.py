@@ -1,3 +1,4 @@
+import pygame
 class Settings():
     """A class to store all settings for alien invasion."""
 
@@ -5,8 +6,8 @@ class Settings():
         """Initialize the game's settings"""
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (192, 192, 192)
-
+        self.image = pygame.image.load('images/night.jpg')
+        self.board_color = (38, 38, 38)
         #ship settings
         self.ship_limit = 2
 

@@ -8,19 +8,19 @@ class Bonus(Sprite):
         """Create a bullet at the ship's current position"""
         super().__init__()
         self.screen = screen
-        self.rect = pygame.Rect(0, 0, 20, 20)
-        self.rect.center = (random.randint(0, ai_settings.screen_width), 0)
-        self.y = float(self.rect.y)
-        self.color = (244, 134, 66)
-        self.speed_factor = 10
+        self.image = pygame.image.load('images/star.bmp')
+        self.ai_settings = ai_settings
+        self.rect = self.image.get_rect()
+        self.screen_rect = screen.get_rect()
+        self.rect.x = random.randrange(self.screen.width - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speed_factor = random.randrange(1, 8)
 
     def update(self):
         """move the bullet up the screen"""
-        #update the decimal position of the bullet
-        self.y += self.speed_factor
-        #update the rect position
-        self.rect.y = self.y
+        self.rect.y += self.speed_factor
 
-    def draw(self):
-        """draw the bullet to screen"""
-        pygame.draw.rect(self.screen, self.color, self.rect)
+
+    def blitme(self):
+        """draw the bonus at its current location"""
+        self.screen.blit(self.image, self.rect)
