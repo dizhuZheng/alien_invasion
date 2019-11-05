@@ -53,9 +53,6 @@ def run_game():
     #make a small play button
     p_button = Button(screen, 'play again', 60, 50, 30)
 
-    #make a clock
-    start_ticks = pygame.time.get_ticks()
-
     #start the main loop for the game
     while True:
         #watch for keyboard and mouse events.
@@ -63,15 +60,14 @@ def run_game():
         # pygame.mixer.init() # for sound
         gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus)
         if stats.game_active:
-            seconds = (pygame.time.get_ticks() - start_ticks)/1000
-            if seconds > stats.timer or stats.timer == 0:
+            if stats.timer == 0:
                 stats.game_active = False
             else:
                 stats.timer -= 1
             sb.prep_clock()
             ship.update()
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
-            # gf.update_bonus(ai_settings, bonus, stats, sb, ship)
+            gf.update_bonus(ai_settings, bonus, stats, sb, ship)
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets)
         #redraw the screen
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button, q_button, p_button, over_button)

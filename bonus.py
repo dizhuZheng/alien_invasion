@@ -13,13 +13,14 @@ class Bonus(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.rect.x = random.randrange(ai_settings.screen_width - self.rect.width)
-        self.rect.y = random.randrange(-100, -40)
-        self.speed_factor = random.randrange(1, 8)
+        self.rect.y = -40
+        self.speedy = 15
+        self.speedx = 5
 
-    def update(self):
+    def update(self, ai_settings):
         """move the bullet up the screen"""
-        self.rect.y += self.speed_factor
-
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
 
     def blitme(self):
         """draw the bonus at its current location"""

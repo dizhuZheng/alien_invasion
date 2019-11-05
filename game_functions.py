@@ -144,12 +144,11 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def update_bonus(ai_settings, bonus, stats, sb, ship):
-    bonus.update()
-
+    bonus.update(ai_settings)
     check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus)
 
     for b in bonus.copy():
-        if b.rect.bottom >= ai_settings.screen_height:
+        if b.rect.bottom >= ai_settings.screen_height + 20 or b.rect.left <= -20 or b.rect.right >= ai_settings.screen_width + 20:
             bonus.remove(b)
 
 
