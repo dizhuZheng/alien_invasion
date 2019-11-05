@@ -12,7 +12,7 @@ class Bonus(Sprite):
         self.ai_settings = ai_settings
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-        self.rect.x = random.randrange(self.screen.width - self.rect.width)
+        self.rect.x = random.randrange(ai_settings.screen_width - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speed_factor = random.randrange(1, 8)
 

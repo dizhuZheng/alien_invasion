@@ -6,6 +6,7 @@ from alien import Alien
 from random import randint
 from pygame.sprite import Group
 from time import sleep
+import math
 from bonus import Bonus
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets):

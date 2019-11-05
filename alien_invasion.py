@@ -64,7 +64,7 @@ def run_game():
         gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus)
         if stats.game_active:
             seconds = (pygame.time.get_ticks() - start_ticks)/1000
-            if seconds > 3 or stats.timer == 0:
+            if seconds > stats.timer or stats.timer == 0:
                 stats.game_active = False
             else:
                 stats.timer -= 1

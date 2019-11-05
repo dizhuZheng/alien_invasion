@@ -6,7 +6,7 @@ class GameStats():
         self.reset_stats()
         self.game_active = False
         self.high_score = 0
-        self.timer = 3
+        self.timer = 500
 
     def reset_stats(self):
         """Initialize stats that can change during the game"""
