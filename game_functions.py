@@ -70,6 +70,9 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
+            for i in range(8):
+                new_meteor = Meteor(screen, ai_settings)
+                meteors.add(new_meteor)
 
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y):
@@ -148,7 +151,7 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets):
-    meteors.update(ai_settings)
+    meteors.update()
     check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets)
 
     for b in meteors.copy():
@@ -231,7 +234,7 @@ def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     """check if the fleet is at an edge, and then update the position of all aliens"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
-    if pygame.sprite.spritecollideany(ship, aliens, meteors):
+    if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
 
     check_aliens_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
