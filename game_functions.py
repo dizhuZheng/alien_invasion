@@ -33,8 +33,6 @@ def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bu
         sb.prep_clock()
         aliens.empty()
         bullets.empty()
-        meteors.empty()
-        bonus.empty()
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
 
@@ -71,9 +69,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
-            new_meteor = Meteor(screen, ai_settings)
             bonus.add(new_bonus)
-            meteors.add(new_meteor)
 
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y):
