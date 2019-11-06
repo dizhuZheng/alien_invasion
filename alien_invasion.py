@@ -6,7 +6,6 @@ import game_functions as gf
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
-from bonus import Bonus
 
 def run_game():
     #initialize the game and create a screen obj
@@ -33,6 +32,9 @@ def run_game():
 
     bonus = Group()
 
+    #make meteors
+    meteors = Group()
+
     #create the fleet of aliens
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
@@ -58,7 +60,7 @@ def run_game():
         #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
         # pygame.mixer.init() # for sound
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
@@ -68,8 +70,9 @@ def run_game():
             ship.update()
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
             gf.update_bonus(ai_settings, bonus, stats, sb, ship)
-            gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
+            gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets)
         #redraw the screen
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, bonus, play_button, q_button, p_button, over_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, play_button, q_button, p_button, over_button)
 
 run_game()
