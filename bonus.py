@@ -16,14 +16,11 @@ class Bonus(Sprite):
         self.speedy = random.randrange(8, 16)
         self.speedx = random.randrange(-6, 6)
 
+
     def update(self):
         """move the bullet up the screen"""
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        # if self.rect.top > self.settings.screen_height + 10 or self.rect.left < -25 or self.rect.right > self.settings.screen_width + 20:
-        #     self.rect.x = random.randrange(self.settings.screen_width - self.rect.width)
-        #     self.rect.y = random.randrange(-100, -40)
-        #     self.speedy = random.randrange(1, 8)
 
 
     def blitme(self):

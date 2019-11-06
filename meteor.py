@@ -5,5 +5,6 @@ class Meteor(Bonus):
     def __init__(self, ai_settings, screen):
         super().__init__(ai_settings, screen)
         self.image = pygame.image.load('images/meteorBrown_med1.bmp')
-        self.speedy = random.randrange(10, 15)
+        self.radius = int(self.rect.width * .85 / 2)
+        self.speedy = random.randrange(12, 18)
         self.speedx = random.randrange(-8, 8)

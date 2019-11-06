@@ -70,7 +70,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
-            for i in range(8):
+            for i in range(10):
                 new_meteor = Meteor(screen, ai_settings)
                 meteors.add(new_meteor)
 
@@ -144,11 +144,6 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     #check any collision, if so, get rid of the alien and ufo
     check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
-    #get rid of bullets that have disappeared
-    for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
-            bullets.remove(bullet)
-
 
 def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets):
     meteors.update()
@@ -160,7 +155,7 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
 
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets):
-    hits = pygame.sprite.spritecollide(ship, meteors, True)
+    hits = pygame.sprite.spritecollide(ship, meteors, False, pygame.sprite.collide_circle)
     if hits:
         ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
 

@@ -26,7 +26,8 @@ class Bullet(Sprite):
         self.y -= self.speed_factor
         #update the rect position
         self.rect.y = self.y
-
+        if self.rect.bottom <= 0:
+            self.kill()
 
     def draw_bullet(self):
         """draw the bullet to screen"""
