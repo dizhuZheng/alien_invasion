@@ -56,7 +56,7 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors):
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -71,7 +71,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
             for i in range(10):
-                new_meteor = Meteor(screen, ai_settings)
+                new_meteor = Meteor(screen, ai_settings, meteor_images)
                 meteors.add(new_meteor)
 
 
@@ -149,13 +149,9 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
     meteors.update()
     check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets)
 
-    for b in meteors.copy():
-        if b.rect.bottom >= ai_settings.screen_height + 20 or b.rect.left <= -20 or b.rect.right >= ai_settings.screen_width + 20:
-            meteors.remove(b)
-
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets):
-    hits = pygame.sprite.spritecollide(ship, meteors, False, pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(ship, meteors, True, pygame.sprite.collide_circle)
     if hits:
         ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
 

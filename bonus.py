@@ -21,7 +21,8 @@ class Bonus(Sprite):
         """move the bullet up the screen"""
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-
+        if self.rect.top > self.settings.screen_height + 10 or self.rect.left < -30 or self.rect.right > self.settings.screen_width + 30:
+            self.kill()
 
     def blitme(self):
         """draw the bonus at its current location"""

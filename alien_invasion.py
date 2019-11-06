@@ -3,9 +3,11 @@ from settings import Settings
 from ship import Ship
 from pygame.sprite import Group
 import game_functions as gf
+from os import path
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
+
 
 def run_game():
     #initialize the game and create a screen obj
@@ -31,6 +33,15 @@ def run_game():
     aliens = Group()
 
     bonus = Group()
+
+    img_dir = path.join(path.dirname(__file__), 'images')
+    meteor_images = []
+    meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
+        'meteorGrey_med1.png', 'meteorBrown_med3.png',
+        'meteorBrown_small1.png', 'meteorBrown_small2.png',
+        'meteorBrown_tiny1.png']
+    for img in meteor_list:
+        meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
 
     #make meteors
     meteors = Group()
@@ -60,7 +71,7 @@ def run_game():
         #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
         # pygame.mixer.init() # for sound
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
