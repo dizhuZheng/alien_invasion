@@ -46,6 +46,22 @@ def run_game():
     #make meteors
     meteors = Group()
 
+    #explosions
+    explosion_anim = {}
+    explosion_anim['big'] = []
+    explosion_anim['small'] = []
+
+    for i in range(9):
+        file_name = 'Explosions_kenney/regularExplosion0{}.png'.format(i)
+        img = pygame.image.load(path.join(img_dir, file_name)).convert()
+        img.set_colorkey((0, 0, 0))
+        img_big = pygame.transform.scale(img, (75, 75))
+        explosion_anim['big'].append(img_big)
+        img_small = pygame.transform.scale(img, (32, 32))
+        explosion_anim['small'].append(img_small)
+
+    explosions = Group()
+
     #create the fleet of aliens
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
@@ -79,11 +95,11 @@ def run_game():
                 stats.timer -= 1
             sb.prep_clock()
             ship.update()
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim)
             gf.update_bonus(ai_settings, bonus, stats, sb, ship)
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets)
         #redraw the screen
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, play_button, q_button, p_button, over_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, play_button, q_button, p_button, over_button)
 
 run_game()

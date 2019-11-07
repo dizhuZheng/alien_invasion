@@ -8,6 +8,7 @@ from time import sleep
 import math
 from bonus import Bonus
 from meteor import Meteor
+from explosion import Explosion
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, meteors, bonus):
     """respond to keypresses"""
@@ -51,9 +52,12 @@ def check_keyup_events(event, ship):
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """fire a bullet if limit not reached yet"""
-    if len(bullets) < ai_settings.bullets_allowed:
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
+    now = pygame.time.get_ticks()
+    if now - ship.last_shoot > ship.shoot_delay:
+        ship.last_shoot = now
+        if len(bullets) < ai_settings.bullets_allowed:
+            new_bullet = Bullet(ai_settings, screen, ship)
+            bullets.add(new_bullet)
 
 
 def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images):
@@ -100,7 +104,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, play_button, quit_button, p_button, over_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, play_button, quit_button, p_button, over_button):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))
@@ -114,6 +118,9 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
 
     for meteor in meteors.sprites():
         meteor.blitme()
+
+    for explosion in explosions.sprites():
+        explosion.blitme()
 
     ship.blitme()
     aliens.draw(screen)
@@ -137,13 +144,13 @@ def check_high_score(stats, sb):
         sb.prep_high_score()
 
 
-def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim):
     """update position of bullets and get rid of old bullets"""
     #update bullet position
     bullets.update()
+    explosions.update()
     #check any collision, if so, get rid of the alien and ufo
-    check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets)
-
+    check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim)
 
 def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets):
     meteors.update()
@@ -165,13 +172,15 @@ def update_bonus(ai_settings, bonus, stats, sb, ship):
             bonus.remove(b)
 
 
-def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets):
+def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim):
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
-    if collisions:
-        for aliens in collisions.values():
-            stats.score += ai_settings.alien_points * len(aliens)
-            sb.prep_score()
-        check_high_score(stats, sb)
+    stats.score += ai_settings.alien_points * len(collisions)
+    sb.prep_score()
+    for collision in collisions:
+        ex = Explosion(screen, collision.rect.center, 'big', explosion_anim)
+        explosions.add(ex)
+        ex.blitme()
+    check_high_score(stats, sb)
 
     if len(aliens) == 0:
         #destroy exisitng bullets, speed up game, create new fleet
@@ -194,8 +203,6 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus):
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
-    #create an alien and find the number of aliens in a row.
-    alien = Alien(ai_settings, screen, 1)
     for j in range(2):
         for i in range(6):
                 create_alien(ai_settings, screen, ship, aliens, i, j)

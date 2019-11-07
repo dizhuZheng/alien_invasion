@@ -7,9 +7,8 @@ class Ship(Sprite):
         """Initialize the ship and set its starting position"""
         super().__init__()
         self.screen = screen
-
         self.ai_settings = ai_settings
-
+        self.shoot_delay = 250
         #load the ship image and get its rect.
         self.image = pygame.image.load('images/rocket.bmp')
         self.rect = self.image.get_rect()
@@ -18,7 +17,7 @@ class Ship(Sprite):
         #start each new ship at the bottom center of the screen
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
-
+        self.last_shoot = pygame.time.get_ticks()
         #store a decimal value for ship's centerx and centery
         self.center = float(self.rect.centerx)
         self.vert = float(self.rect.centery)
