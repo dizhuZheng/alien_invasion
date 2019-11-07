@@ -8,7 +8,7 @@ class Bonus(Sprite):
         super().__init__()
         self.screen = screen
         self.settings = ai_settings
-        self.image = pygame.image.load('images/star.bmp')
+        self.image = pygame.image.load('images/star_gold.bmp')
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.rect.x = random.randrange(ai_settings.screen_width - self.rect.width)

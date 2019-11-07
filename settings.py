@@ -11,10 +11,7 @@ class Settings():
         #ship settings
         self.ship_limit = 2
 
-#        bullet settings
-        self.bullet_width = 4
-        self.bullet_height = 5
-        self.bullet_color = (255, 102, 102)
+        #bullet settings
         self.bullets_allowed = 5
 
         #alien settings
