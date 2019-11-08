@@ -45,6 +45,9 @@ def run_game():
     for snd in ['expl3.wav', 'expl6.wav']:
         exp_sounds.append(pygame.mixer.Sound(path.join(snd_dir, snd)))
 
+    pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+    pygame.mixer.music.set_volume(0.4)
+
     meteor_images = []
     meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
         'meteorGrey_med1.png', 'meteorBrown_med3.png',
@@ -87,6 +90,8 @@ def run_game():
 
     #make a small play button
     p_button = Button(screen, 'play again', 60, 50, 30)
+
+    pygame.mixer.music.play(loops=-1)
 
     #start the main loop for the game
     while True:
