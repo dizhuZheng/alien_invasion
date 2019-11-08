@@ -10,6 +10,7 @@ class Bonus(Sprite):
         self.settings = ai_settings
         self.image = pygame.image.load('images/star_gold.bmp')
         self.rect = self.image.get_rect()
+        self.radius = 1
         self.screen_rect = screen.get_rect()
         self.rect.x = random.randrange(ai_settings.screen_width - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
@@ -21,7 +22,7 @@ class Bonus(Sprite):
         """move the bullet up the screen"""
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        if self.rect.top > self.settings.screen_height + 10 or self.rect.left < -30 or self.rect.right > self.settings.screen_width + 30:
+        if self.rect.top > self.settings.screen_height + 20 or self.rect.left < -20 or self.rect.right > self.settings.screen_width + 20:
             self.kill()
 
     def blitme(self):

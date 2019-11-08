@@ -35,6 +35,16 @@ def run_game():
     bonus = Group()
 
     img_dir = path.join(path.dirname(__file__), 'images')
+    snd_dir = path.join(path.dirname(__file__), 'sound')
+
+    # sound
+    shoot_sound = pygame.mixer.Sound(path.join(snd_dir, 'biu.ogg'))
+    star_sound = pygame.mixer.Sound(path.join(snd_dir, 'star.ogg'))
+    lose_sound = pygame.mixer.Sound(path.join(snd_dir, 'lose.ogg'))
+    exp_sounds = []
+    for snd in ['expl3.wav', 'expl6.wav']:
+        exp_sounds.append(pygame.mixer.Sound(path.join(snd_dir, snd)))
+
     meteor_images = []
     meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
         'meteorGrey_med1.png', 'meteorBrown_med3.png',
@@ -83,7 +93,7 @@ def run_game():
         #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
         # pygame.mixer.init() # for sound
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
@@ -91,10 +101,10 @@ def run_game():
                 stats.timer -= 1
             sb.prep_clock()
             ship.update()
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim)
-            gf.update_bonus(ai_settings, bonus, stats, sb, ship)
-            gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors)
-            gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds)
+            gf.update_bonus(ai_settings, bonus, stats, sb, ship, star_sound)
+            gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
+            gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         #redraw the screen
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, play_button, q_button, p_button, over_button)
 
