@@ -47,18 +47,14 @@ def run_game():
     meteors = Group()
 
     #explosions
-    explosion_anim = {}
-    explosion_anim['big'] = []
-    explosion_anim['small'] = []
+    explosion_anim = []
 
     for i in range(9):
         file_name = 'Explosions_kenney/regularExplosion0{}.png'.format(i)
         img = pygame.image.load(path.join(img_dir, file_name)).convert()
         img.set_colorkey((0, 0, 0))
-        img_big = pygame.transform.scale(img, (75, 75))
-        explosion_anim['big'].append(img_big)
-        img_small = pygame.transform.scale(img, (32, 32))
-        explosion_anim['small'].append(img_small)
+        img = pygame.transform.scale(img, (75, 75))
+        explosion_anim.append(img)
 
     explosions = Group()
 

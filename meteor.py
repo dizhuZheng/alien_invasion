@@ -1,6 +1,7 @@
 import random
 import pygame
 from bonus import Bonus
+
 class Meteor(Bonus):
     def __init__(self, ai_settings, screen, meteor_images):
         super().__init__(ai_settings, screen)

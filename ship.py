@@ -34,6 +34,7 @@ class Ship(Sprite):
         #centery isn't rect.bottom, should use centerx and centery to locate the surface
         self.vert = self.screen_rect.bottom - self.rect.height/2
 
+
     def update(self):
         """update the ship's position based on the movement flag"""
         if self.moving_right and self.rect.right < self.screen_rect.right:

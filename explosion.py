@@ -2,17 +2,16 @@ import pygame
 from pygame.sprite import Sprite
 
 class Explosion(Sprite):
-
-    def __init__(self, screen, center, size, explosion_anim):
+    """ explosion class """
+    def __init__(self, screen, center, explosion_anim):
         super().__init__()
-        self.size = size
         self.screen = screen
-        self.explosion_anim = explosion_anim
-        self.image = explosion_anim[self.size][0]
-        self.rect = self.image.get_rect()
-        self.length = len(explosion_anim[self.size])
-        self.rect.center = center
         self.frame = 0
+        self.explosion_anim = explosion_anim
+        self.image = explosion_anim[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.length = len(explosion_anim)
         self.last_update = pygame.time.get_ticks()
         self.frame_rate = 50
 
@@ -26,9 +25,10 @@ class Explosion(Sprite):
                 self.kill()
             else:
                 center = self.rect.center #local var
-                self.image = self.explosion_anim[self.size][self.frame]
+                self.image = self.explosion_anim[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+
 
     def blitme(self):
         """draw the bonus at its current location"""
