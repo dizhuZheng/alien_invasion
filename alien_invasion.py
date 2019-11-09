@@ -7,6 +7,7 @@ from os import path
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
+import time
 
 
 def run_game():
@@ -95,6 +96,7 @@ def run_game():
 
     #start the main loop for the game
     while True:
+        # time.sleep(1)
         #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
         # pygame.mixer.init() # for sound

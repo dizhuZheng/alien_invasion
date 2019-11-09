@@ -14,9 +14,6 @@ class Settings():
         #bullet settings
         self.bullets_allowed = 5
 
-        #alien settings
-        self.single_drop_speed = 55
-
         #how quickly the game speeds up
         self.speedup_scale = 1.5
 
