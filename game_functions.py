@@ -28,7 +28,7 @@ def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bu
         stats.reset_stats()
         stats.game_active = True
         sb.prep_score()
-        sb.prep_high_score()
+        sb.prep_energy()
         sb.prep_level()
         sb.prep_ships()
         sb.prep_clock()
@@ -94,7 +94,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             #reset the scoreboard images.
             sb.prep_score()
             sb.prep_clock()
-            sb.prep_high_score()
+            sb.prep_energy()
             sb.prep_level()
             sb.prep_ships()
             #empy the list of aliens and bullets stuff
@@ -128,6 +128,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     ship.blitme()
     aliens.draw(screen)
     sb.show_score()
+    sb.prep_energy()
 
     if not stats.game_active:
         if stats.ships_left == 0 or stats.timer == 0:
@@ -136,7 +137,6 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             quit_button.draw_button()
         else:
             play_button.draw_button()
-
     pygame.display.flip()
 
 
@@ -144,7 +144,6 @@ def check_high_score(stats, sb):
     """check to see if there's a new high score."""
     if stats.score > stats.high_score:
         stats.high_score = stats.score
-        sb.prep_high_score()
 
 
 def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds):
@@ -163,8 +162,10 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound):
     hits = pygame.sprite.spritecollide(ship, meteors, True, pygame.sprite.collide_circle)
-    if hits:
-        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
+    for hit in hits:
+        stats.pct -= hit.radius * 2
+        if stats.pct <= 0:
+            ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
 
 
 def update_bonus(ai_settings, bonus, stats, sb, ship, star_sound):
@@ -203,6 +204,7 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound)
     hits = pygame.sprite.spritecollide(ship, bonus, True, pygame.sprite.collide_circle)
     if hits:
         stats.score += ai_settings.bonus_points * len(hits)
+        stats.pct += len(hits) * 10
         sb.prep_score()
         star_sound.play()
     check_high_score(stats, sb)

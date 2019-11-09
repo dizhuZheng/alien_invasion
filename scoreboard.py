@@ -1,4 +1,5 @@
 import pygame.font
+import pygame
 from pygame.sprite import Group
 from ship import Ship
 
@@ -16,9 +17,10 @@ class Scoreboard():
         self.text_color = (255, 255, 26)
         self.font = pygame.font.SysFont(None, 28)
         self.font2 = pygame.font.SysFont(None, 88)
+
         #prepare the initial score image.
         self.prep_score()
-        self.prep_high_score()
+        self.prep_energy()
         self.prep_level()
         self.prep_clock()
         self.prep_ships()
@@ -37,23 +39,24 @@ class Scoreboard():
         self.score_rect.top = 20
 
 
-    def prep_high_score(self):
+    def prep_energy(self):
         """Turn the high score into a rendered image."""
-        high_score = int(round(self.stats.high_score, -1))
-        high_score_str = "{} {:,}".format('Highest Score:', high_score)
-        self.high_score_image = self.font.render(high_score_str, True, self.text_color,
-        self.ai_settings.board_color)
-
-        #center the high score at the top of the screen
-        self.high_score_rect = self.high_score_image.get_rect()
-        self.high_score_rect.centerx = self.screen_rect.centerx + 20
-        self.high_score_rect.top = self.score_rect.top
+        if self.stats.pct < 0:
+            self.stats.pct = 0
+        elif self.stats.pct > 100:
+            self.stats.pct = 100
+        BAR_LENGTH = 100
+        BAR_HEIGHT = 10
+        fill = (self.stats.pct / 100) * BAR_LENGTH
+        outline_rect = pygame.Rect(self.screen_rect.left + 180, self.score_rect.top, BAR_LENGTH, BAR_HEIGHT)
+        fill_rect = pygame.Rect(self.screen_rect.left + 180, self.score_rect.top, fill, BAR_HEIGHT)
+        pygame.draw.rect(self.screen, (0, 255, 0), fill_rect)
+        pygame.draw.rect(self.screen, (255, 255, 255), outline_rect, 2)
 
 
     def show_score(self):
         """Draw score and level to the screen"""
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
         self.screen.blit(self.clock_image, self.clock_rect)
         self.ships.draw(self.screen)
@@ -71,14 +74,14 @@ class Scoreboard():
 
 
     def prep_clock(self):
-            """Turn the clock score into a rendered image."""
-            clock_str = "{} {:,}".format('Left Time:', self.stats.timer)
-            self.clock_image = self.font.render(clock_str, True, self.text_color, self.ai_settings.board_color)
+        """Turn the clock score into a rendered image."""
+        clock_str = "{} {:,}".format('Left Time:', self.stats.timer)
+        self.clock_image = self.font.render(clock_str, True, self.text_color, self.ai_settings.board_color)
 
-            #position the clock below the level
-            self.clock_rect = self.clock_image.get_rect()
-            self.clock_rect.right = self.high_score_rect.centerx - 300
-            self.clock_rect.top = self.score_rect.top
+        #position the clock below the level
+        self.clock_rect = self.clock_image.get_rect()
+        self.clock_rect.right = self.screen_rect.centerx + 180
+        self.clock_rect.top = self.score_rect.top
 
 
     def prep_ships(self):
