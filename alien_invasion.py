@@ -18,6 +18,8 @@ def run_game():
 
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
 
+    screen_rect = screen.get_rect()
+
     pygame.display.set_caption('Alien Invasion')
 
     #make a ship
@@ -81,16 +83,16 @@ def run_game():
     sb = Scoreboard(ai_settings, screen, stats)
 
     #make a button
-    play_button = Button(screen, 'Play', 200, 50, 48)
+    play_button = Button(screen, screen_rect.centerx, screen_rect.centery, 'Play', 200, 50, 48)
 
     #game over button
-    over_button = Button(screen, 'Game Over', 200, 50, 48)
+    over_button = Button(screen, screen_rect.centerx, screen_rect.centery, 'Game Over', 200, 50, 48)
 
     #make a quit button
-    q_button = Button(screen, 'quit', 60, 50, 30)
+    q_button = Button(screen, screen_rect.centerx - 100, screen_rect.centery + 50,  'quit', 60, 50, 30)
 
     #make a small play button
-    p_button = Button(screen, 'play again', 60, 50, 30)
+    p_button = Button(screen, screen_rect.centerx + 300, screen_rect.centery + 50, 'play again', 60, 50, 30)
 
     pygame.mixer.music.play(loops=-1)
 

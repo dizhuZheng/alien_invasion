@@ -138,8 +138,6 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             over_button.draw_button()
             p_button.draw_button()
             quit_button.draw_button()
-        else:
-            play_button.draw_button()
     pygame.display.flip()
 
 
