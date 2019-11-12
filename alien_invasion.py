@@ -82,17 +82,14 @@ def run_game():
 
     sb = Scoreboard(ai_settings, screen, stats)
 
-    #make a button
-    play_button = Button(screen, screen_rect.centerx, screen_rect.centery, 'Play', 200, 50, 48)
-
     #game over button
     over_button = Button(screen, screen_rect.centerx, screen_rect.centery, 'Game Over', 200, 50, 48)
 
     #make a quit button
-    q_button = Button(screen, screen_rect.centerx - 100, screen_rect.centery + 50,  'quit', 60, 50, 30)
+    q_button = Button(screen, screen_rect.centerx - 150, screen_rect.centery + 50, 'Quit', 100, 80, 40)
 
     #make a small play button
-    p_button = Button(screen, screen_rect.centerx + 300, screen_rect.centery + 50, 'play again', 60, 50, 30)
+    p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Play Again', 200, 180, 40)
 
     pygame.mixer.music.play(loops=-1)
 
@@ -102,7 +99,7 @@ def run_game():
         #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
         # pygame.mixer.init() # for sound
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
+        gf.check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
@@ -115,6 +112,6 @@ def run_game():
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         #redraw the screen
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, play_button, q_button, p_button, over_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button)
 
 run_game()

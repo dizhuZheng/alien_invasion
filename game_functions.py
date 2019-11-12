@@ -63,7 +63,7 @@ def fire_bullet(ai_settings, screen, ship, bullets, shoot_sound):
             shoot_sound.play()
 
 
-def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound):
+def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -73,7 +73,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
+            check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
@@ -107,7 +107,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, play_button, quit_button, p_button, over_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))

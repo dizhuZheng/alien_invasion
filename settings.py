@@ -9,7 +9,7 @@ class Settings():
         self.image = pygame.image.load('images/night.jpg')
         self.board_color = (38, 38, 38)
         #ship settings
-        self.ship_limit = 2
+        self.ship_limit = 1
 
         #bullet settings
         self.bullets_allowed = 5
