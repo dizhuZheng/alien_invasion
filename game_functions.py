@@ -171,8 +171,10 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
     check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound)
 
 
-def update_grenades():
+def update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats):
     grenades.update()
+    check_grenade_ship_collisions(ai_settings, screen, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades)
+
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound):
     hits = pygame.sprite.spritecollide(ship, meteors, True, pygame.sprite.collide_circle)
@@ -210,6 +212,12 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         sb.prep_level()
         ship.center_ship()
         create_fleet(ai_settings, screen, ship, aliens)
+
+
+def check_grenade_ship_collisions(ai_settings, screen, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades):
+    hits = pygame.sprite.spritecollide(ship, grenades, True, pygame.sprite.collide_circle)
+    if hits:
+        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
 
 
 def check_bullet_meteor_collisions(screen, bullets, meteors, explosions, explosion_anim, exp_sounds):

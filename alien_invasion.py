@@ -95,10 +95,7 @@ def run_game():
 
     #start the main loop for the game
     while True:
-        # time.sleep(1)
-        #watch for keyboard and mouse events.
         screen.blit(ai_settings.image, (0, 0))
-        # pygame.mixer.init() # for sound
         gf.check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
         if stats.game_active:
             if stats.timer == 0:
@@ -110,7 +107,7 @@ def run_game():
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, meteors, bullets, explosions, explosion_anim, exp_sounds)
             gf.update_bonus(ai_settings, bonus, stats, sb, ship, star_sound)
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
-            gf.update_grenades()
+            gf.update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         #redraw the screen
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button)
