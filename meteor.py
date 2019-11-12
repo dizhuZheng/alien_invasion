@@ -17,7 +17,7 @@ class Meteor(Bonus):
 
     def update(self):
         now = pygame.time.get_ticks()
-        if now - self.last_update > 30:
+        if now - self.last_update > 100:
             self.last_update = now
             self.rot = (self.rot + self.rot_speed) % 360
             new_image = pygame.transform.rotate(self.image_orig, self.rot)

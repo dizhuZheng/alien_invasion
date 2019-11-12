@@ -81,7 +81,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
-            for i in range(10):
+            for i in range(8):
                 new_meteor = Meteor(screen, ai_settings, meteor_images)
                 meteors.add(new_meteor)
             for alien in aliens:
@@ -158,11 +158,12 @@ def check_high_score(stats, sb):
         stats.high_score = stats.score
 
 
-def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, meteors, bullets, explosions, explosion_anim, exp_sounds):
     """update position of bullets and get rid of old bullets"""
     bullets.update()
     explosions.update()
     check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds)
+    check_bullet_meteor_collisions(screen, bullets, meteors, explosions, explosion_anim, exp_sounds)
 
 
 def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound):
@@ -195,7 +196,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
     stats.score += ai_settings.alien_points * len(collisions)
     sb.prep_score()
     for collision in collisions:
-        ex = Explosion(screen, collision.rect.center, explosion_anim)
+        ex = Explosion(screen, collision.rect.center, 'lg', explosion_anim)
         explosions.add(ex)
         ex.blitme()
         for e in exp_sounds:
@@ -211,6 +212,16 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         create_fleet(ai_settings, screen, ship, aliens)
 
 
+def check_bullet_meteor_collisions(screen, bullets, meteors, explosions, explosion_anim, exp_sounds):
+    collisions = pygame.sprite.groupcollide(bullets, meteors, True, True)
+    for collision in collisions:
+        ex = Explosion(screen, collision.rect.center, 'sm', explosion_anim)
+        explosions.add(ex)
+        ex.blitme()
+        for e in exp_sounds:
+            e.play()
+
+
 def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound):
     hits = pygame.sprite.spritecollide(ship, bonus, True, pygame.sprite.collide_circle)
     if hits:
@@ -223,8 +234,8 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound)
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
-    for j in range(1):
-        for i in range(3):
+    for j in range(2):
+        for i in range(6):
             create_alien(ai_settings, screen, ship, aliens, i, j)
 
 

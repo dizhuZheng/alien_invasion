@@ -7,7 +7,8 @@ class Grenade(Sprite):
         """Create a bullet at the ship's current position"""
         super().__init__()
         self.screen = screen
-        self.image = pygame.image.load('images/fire12.bmp')
+        self.image = pygame.Surface((5, 15))
+        self.image.fill((165, 252, 3))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.y = float(self.rect.y)
