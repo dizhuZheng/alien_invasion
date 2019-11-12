@@ -3,12 +3,15 @@ import sys
 import pygame
 from bullet import Bullet
 from alien import Alien
+from grenade import Grenade
 from pygame.sprite import Group
 from time import sleep
 import math
 from bonus import Bonus
 from meteor import Meteor
 from explosion import Explosion
+
+grenades = Group()
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, meteors, bonus, shoot_sound):
     """respond to keypresses"""
@@ -36,6 +39,7 @@ def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bu
         bullets.empty()
         meteors.empty()
         bonus.empty()
+        grenades.empty()
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
 
@@ -80,6 +84,9 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
             for i in range(10):
                 new_meteor = Meteor(screen, ai_settings, meteor_images)
                 meteors.add(new_meteor)
+            for alien in aliens:
+                grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
+                grenades.add(grenade)
 
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y):
@@ -102,6 +109,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             bullets.empty()
             bonus.empty()
             meteors.empty()
+            grenades.empty()
             #create new fleet and center the ship
             create_fleet(ai_settings, screen, ship, aliens)
             ship.center_ship()
@@ -124,6 +132,9 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
 
     for meteor in meteors.sprites():
         meteor.blitme()
+
+    for grenade in grenades.sprites():
+        grenade.blitme()
 
     for explosion in explosions.sprites():
         explosion.blitme()
@@ -149,10 +160,8 @@ def check_high_score(stats, sb):
 
 def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds):
     """update position of bullets and get rid of old bullets"""
-    #update bullet position
     bullets.update()
     explosions.update()
-    #check any collision, if so, get rid of the alien and ufo
     check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds)
 
 
@@ -160,6 +169,9 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
     meteors.update()
     check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound)
 
+
+def update_grenades():
+    grenades.update()
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound):
     hits = pygame.sprite.spritecollide(ship, meteors, True, pygame.sprite.collide_circle)
@@ -191,10 +203,8 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
     check_high_score(stats, sb)
 
     if len(aliens) == 0:
-        #destroy exisitng bullets, speed up game, create new fleet
         bullets.empty()
         ai_settings.increase_speed()
-        #increse level.
         stats.level += 1
         sb.prep_level()
         ship.center_ship()
@@ -213,9 +223,9 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound)
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
-    for j in range(2):
-        for i in range(6):
-                create_alien(ai_settings, screen, ship, aliens, i, j)
+    for j in range(1):
+        for i in range(3):
+            create_alien(ai_settings, screen, ship, aliens, i, j)
 
 
 def create_alien(ai_settings, screen, ship, aliens, alien_number, row_number):
@@ -236,6 +246,8 @@ def check_fleet_edges(ai_settings, screen, aliens):
         if alien.check_edges():
             alien = Alien(ai_settings, screen)
             aliens.add(alien)
+            grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
+            grenades.add(grenade)
 
 
 def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound):

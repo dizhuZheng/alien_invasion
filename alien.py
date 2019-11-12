@@ -17,9 +17,8 @@ class Alien(Sprite):
         self.screen_rect = self.screen.get_rect()
         self.rect.x = random.randrange(-10, self.ai_settings.screen_width)
         self.rect.y = random.randrange(-30, -5)
-        self.numberx = random.randrange(-18, 10)
-        self.numbery = random.randrange(-18, 10)
-
+        self.numberx = random.randrange(-8, 8)
+        self.numbery = random.randrange(-8, 8)
 
     def blitme(self):
         """Draw the alien at its current location """

@@ -22,20 +22,19 @@ def run_game():
 
     pygame.display.set_caption('Alien Invasion')
 
-    #make a ship
     ship = Ship(ai_settings, screen)
 
     COUNT = pygame.USEREVENT + 1
 
-    pygame.time.set_timer(COUNT, 5000)
+    pygame.time.set_timer(COUNT, 2000)
 
-    # Make many bullets
     bullets = Group()
 
-    #make an alien
     aliens = Group()
 
     bonus = Group()
+
+    meteors = Group()
 
     img_dir = path.join(path.dirname(__file__), 'images')
     snd_dir = path.join(path.dirname(__file__), 'sound')
@@ -58,9 +57,6 @@ def run_game():
         'meteorBrown_tiny1.png']
     for img in meteor_list:
         meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
-
-    #make meteors
-    meteors = Group()
 
     #explosions
     explosion_anim = []
@@ -110,6 +106,7 @@ def run_game():
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, explosions, explosion_anim, exp_sounds)
             gf.update_bonus(ai_settings, bonus, stats, sb, ship, star_sound)
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
+            gf.update_grenades()
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         #redraw the screen
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button)
