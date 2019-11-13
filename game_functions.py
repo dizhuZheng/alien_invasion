@@ -215,7 +215,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
 
 def check_grenade_ship_collisions(ai_settings, screen, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades):
-    hits = pygame.sprite.spritecollide(ship, grenades, True, pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(ship, grenades, True, pygame.sprite.collide_rect_ratio(.5))
     if hits:
         ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
 

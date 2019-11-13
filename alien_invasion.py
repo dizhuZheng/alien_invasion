@@ -89,7 +89,7 @@ def run_game():
     q_button = Button(screen, screen_rect.centerx - 150, screen_rect.centery + 50, 'Quit', 100, 80, 40)
 
     #make a small play button
-    p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Play Again', 200, 180, 40)
+    p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Again', 100, 80, 40)
 
     pygame.mixer.music.play(loops=-1)
 
