@@ -6,7 +6,7 @@ class GameStats():
         self.reset_stats()
         self.game_active = False
         self.high_score = 0
-        self.timer = 500
+        self.timer = 120
         self.pct = 100
 
     def reset_stats(self):

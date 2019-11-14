@@ -48,7 +48,7 @@ def run_game():
         exp_sounds.append(pygame.mixer.Sound(path.join(snd_dir, snd)))
 
     pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
-    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.set_volume(0.3)
 
     meteor_images = []
     meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
@@ -93,15 +93,24 @@ def run_game():
 
     pygame.mixer.music.play(loops=-1)
 
-    #start the main loop for the game
+    amount = 0
+
+    last_update = pygame.time.get_ticks()
+
     while True:
         screen.blit(ai_settings.image, (0, 0))
+        now = pygame.time.get_ticks()
+        seconds = (now- last_update)/1000
+        last_update = now
         gf.check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
-            else:
+            elif amount < 1:
+                amount += seconds
+            elif amount >= 1:
                 stats.timer -= 1
+                amount = 0
             sb.prep_clock()
             ship.update()
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, meteors, bullets, explosions, explosion_anim, exp_sounds)

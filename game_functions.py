@@ -77,7 +77,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
+            # check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
@@ -87,14 +87,25 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
             for alien in aliens:
                 grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
                 grenades.add(grenade)
+        else:
+            start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus)
 
 
-def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y):
+def start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus):
     """start a new game when the player clicks play"""
-    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked and not stats.game_active:
-        pygame.mouse.set_visible(False)
-        if play_button.rect.collidepoint(mouse_x, mouse_y):
+    li = ['images/numeral1.png', 'images/numeral2.png', 'images/numeral3.png']
+    if not stats.game_active:
+        start_ticks = pygame.time.get_ticks()
+        seconds = (pygame.time.get_ticks() - start_ticks)/1000
+        if seconds <= 1:
+            image = pygame.image.load(li[2])
+            screen.blit(image, (120, 120))
+        elif seconds <= 2:
+            image = pygame.image.load(li[1])
+            screen.blit(image, (120, 120))
+        elif seconds <= 3:
+            image = pygame.image.load(li[0])
+            screen.blit(image, (120, 120))
             ai_settings.initialize_dynamic_settings()
             stats.reset_stats()
             stats.game_active = True
