@@ -12,9 +12,6 @@ from meteor import Meteor
 from explosion import Explosion
 
 grenades = Group()
-li = []
-for i in range(4):
-    li.append('images/{}.png'.format(i+1))
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, meteors, bonus, shoot_sound):
     """respond to keypresses"""
@@ -92,7 +89,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
                 grenades.add(grenade)
 
 start_ticks = pygame.time.get_ticks()
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button, li):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))
@@ -129,18 +126,17 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
         else:
             seconds = (pygame.time.get_ticks()-start_ticks)/1000
             if seconds <= 1:
-                image = pygame.image.load(li[3])
-                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+                image = li[3]
             elif seconds <= 2:
-                image = pygame.image.load(li[2])
-                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+                image = li[2]
             elif seconds <= 3:
-                image = pygame.image.load(li[1])
-                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+                image = li[1]
             elif seconds <= 4:
-                image = pygame.image.load(li[0])
-                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+                image = li[0]
+            elif seconds <= 5:
+                image = li[0]
                 stats.game_active = True
+            screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
     pygame.display.flip()
 
 

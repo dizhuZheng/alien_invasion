@@ -62,6 +62,8 @@ def run_game():
     explosion_anim = {}
     explosion_anim['lg'] = []
     explosion_anim['sm'] = []
+    li = []
+
 
     for i in range(9):
         file_name = 'Explosions_kenney/regularExplosion0{}.png'.format(i)
@@ -71,6 +73,13 @@ def run_game():
         explosion_anim['lg'].append(img_lg)
         img_sm = pygame.transform.scale(img, (32, 32))
         explosion_anim['sm'].append(img_sm)
+
+    for i in range(1, 5):
+        file_name = 'n{}.png'.format(i)
+        img = pygame.image.load(path.join(img_dir, file_name)).convert()
+        img.set_colorkey((0, 0, 0))
+        ig = pygame.transform.scale(img, (75, 75))
+        li.append(ig)
 
     explosions = Group()
 
@@ -119,6 +128,6 @@ def run_game():
             gf.update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         #redraw the screen
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, li)
 
 run_game()
