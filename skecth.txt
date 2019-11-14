@@ -19,3 +19,21 @@ def start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus)
         #create new fleet and center the ship
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
+
+
+
+elif event.key == pygame.K_p:
+        stats.reset_stats()
+        stats.game_active = True
+        sb.prep_score()
+        sb.prep_energy()
+        sb.prep_level()
+        sb.prep_ships()
+        sb.prep_clock()
+        aliens.empty()
+        bullets.empty()
+        meteors.empty()
+        bonus.empty()
+        grenades.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()

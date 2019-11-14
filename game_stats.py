@@ -5,6 +5,7 @@ class GameStats():
         self.ai_settings = ai_settings
         self.reset_stats()
         self.game_active = False
+        self.paused = False
         self.high_score = 0
         self.timer = 120
         self.pct = 100

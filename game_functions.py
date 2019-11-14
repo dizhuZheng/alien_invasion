@@ -13,7 +13,7 @@ from explosion import Explosion
 
 grenades = Group()
 
-def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, meteors, bonus, shoot_sound):
+def check_keydown_events(event, ai_settings, stats, screen, ship, bullets, shoot_sound):
     """respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -28,21 +28,8 @@ def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bu
     elif event.key == pygame.K_q:
         sys.exit()
     elif event.key == pygame.K_p:
-        stats.reset_stats()
-        stats.game_active = True
-        sb.prep_score()
-        sb.prep_energy()
-        sb.prep_level()
-        sb.prep_ships()
-        sb.prep_clock()
-        aliens.empty()
-        bullets.empty()
-        meteors.empty()
-        bonus.empty()
-        grenades.empty()
-        create_fleet(ai_settings, screen, ship, aliens)
-        ship.center_ship()
-
+        stats.game_active = False
+        stats.paused = True
 
 def check_keyup_events(event, ship):
     """respond to key releases"""
@@ -67,17 +54,14 @@ def fire_bullet(ai_settings, screen, ship, bullets, shoot_sound):
             shoot_sound.play()
 
 
-def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound):
+def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, bonus, meteors, shoot_sound)
+            check_keydown_events(event, ai_settings, stats, screen, ship, bullets, shoot_sound)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            # check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus, mouse_x, mouse_y)
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
@@ -89,7 +73,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
                 grenades.add(grenade)
 
 start_ticks = pygame.time.get_ticks()
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button, li):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button, pause_button, li):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))
@@ -121,6 +105,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     if not stats.game_active:
         if stats.ships_left == 0 or stats.timer == 0:
             over_button.draw_button()
+            p_button.draw_button()
+            quit_button.draw_button()
+        elif stats.paused:
+            pause_button.draw_button()
             p_button.draw_button()
             quit_button.draw_button()
         else:

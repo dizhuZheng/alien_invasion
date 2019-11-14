@@ -64,7 +64,6 @@ def run_game():
     explosion_anim['sm'] = []
     li = []
 
-
     for i in range(9):
         file_name = 'Explosions_kenney/regularExplosion0{}.png'.format(i)
         img = pygame.image.load(path.join(img_dir, file_name)).convert()
@@ -94,6 +93,9 @@ def run_game():
     #game over button
     over_button = Button(screen, screen_rect.centerx, screen_rect.centery, 'Game Over', 200, 50, 48)
 
+    #pause the game
+    paused = Button(screen, screen_rect.centerx, screen_rect.centery, 'Paused', 200, 50, 48)
+
     #make a quit button
     q_button = Button(screen, screen_rect.centerx - 150, screen_rect.centery + 50, 'Quit', 100, 80, 40)
 
@@ -111,7 +113,7 @@ def run_game():
         now = pygame.time.get_ticks()
         seconds = (now- last_update)/1000
         last_update = now
-        gf.check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
+        gf.check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
@@ -127,7 +129,6 @@ def run_game():
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
             gf.update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
-        #redraw the screen
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, li)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, paused, li)
 
 run_game()
