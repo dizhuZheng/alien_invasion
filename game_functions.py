@@ -12,6 +12,9 @@ from meteor import Meteor
 from explosion import Explosion
 
 grenades = Group()
+li = []
+for i in range(4):
+    li.append('images/{}.png'.format(i+1))
 
 def check_keydown_events(event, ai_settings, stats, screen, aliens, sb, ship, bullets, meteors, bonus, shoot_sound):
     """respond to keypresses"""
@@ -87,45 +90,30 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
             for alien in aliens:
                 grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
                 grenades.add(grenade)
-        else:
-            start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus)
-
 
 def start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus):
     """start a new game when the player clicks play"""
-    li = ['images/numeral1.png', 'images/numeral2.png', 'images/numeral3.png']
     if not stats.game_active:
-        start_ticks = pygame.time.get_ticks()
-        seconds = (pygame.time.get_ticks() - start_ticks)/1000
-        if seconds <= 1:
-            image = pygame.image.load(li[2])
-            screen.blit(image, (120, 120))
-        elif seconds <= 2:
-            image = pygame.image.load(li[1])
-            screen.blit(image, (120, 120))
-        elif seconds <= 3:
-            image = pygame.image.load(li[0])
-            screen.blit(image, (120, 120))
-            ai_settings.initialize_dynamic_settings()
-            stats.reset_stats()
-            stats.game_active = True
-            #reset the scoreboard images.
-            sb.prep_score()
-            sb.prep_clock()
-            sb.prep_energy()
-            sb.prep_level()
-            sb.prep_ships()
-            #empy the list of aliens and bullets stuff
-            aliens.empty()
-            bullets.empty()
-            bonus.empty()
-            meteors.empty()
-            grenades.empty()
-            #create new fleet and center the ship
-            create_fleet(ai_settings, screen, ship, aliens)
-            ship.center_ship()
+        ai_settings.initialize_dynamic_settings()
+        stats.reset_stats()
+        stats.game_active = True
+        #reset the scoreboard images.
+        sb.prep_score()
+        sb.prep_clock()
+        sb.prep_energy()
+        sb.prep_level()
+        sb.prep_ships()
+        #empy the list of aliens and bullets stuff
+        aliens.empty()
+        bullets.empty()
+        bonus.empty()
+        meteors.empty()
+        grenades.empty()
+        #create new fleet and center the ship
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
 
-
+start_ticks = pygame.time.get_ticks()
 def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
@@ -160,6 +148,21 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             over_button.draw_button()
             p_button.draw_button()
             quit_button.draw_button()
+        else:
+            seconds = (pygame.time.get_ticks()-start_ticks)/1000
+            if seconds >= 100:
+                image = pygame.image.load(li[3])
+                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+            elif seconds >= 200:
+                image = pygame.image.load(li[2])
+                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+            elif seconds >= 300:
+                image = pygame.image.load(li[1])
+                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+            elif seconds >= 400:
+                image = pygame.image.load(li[0])
+                screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+            start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus)
     pygame.display.flip()
 
 
