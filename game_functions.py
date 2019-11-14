@@ -91,28 +91,6 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets, COUNT, b
                 grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
                 grenades.add(grenade)
 
-def start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus):
-    """start a new game when the player clicks play"""
-    if not stats.game_active:
-        ai_settings.initialize_dynamic_settings()
-        stats.reset_stats()
-        stats.game_active = True
-        #reset the scoreboard images.
-        sb.prep_score()
-        sb.prep_clock()
-        sb.prep_energy()
-        sb.prep_level()
-        sb.prep_ships()
-        #empy the list of aliens and bullets stuff
-        aliens.empty()
-        bullets.empty()
-        bonus.empty()
-        meteors.empty()
-        grenades.empty()
-        #create new fleet and center the ship
-        create_fleet(ai_settings, screen, ship, aliens)
-        ship.center_ship()
-
 start_ticks = pygame.time.get_ticks()
 def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button):
     """update images on the screen each pass through the loop"""
@@ -150,19 +128,19 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             quit_button.draw_button()
         else:
             seconds = (pygame.time.get_ticks()-start_ticks)/1000
-            if seconds >= 100:
+            if seconds <= 1:
                 image = pygame.image.load(li[3])
                 screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
-            elif seconds >= 200:
+            elif seconds <= 2:
                 image = pygame.image.load(li[2])
                 screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
-            elif seconds >= 300:
+            elif seconds <= 3:
                 image = pygame.image.load(li[1])
                 screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
-            elif seconds >= 400:
+            elif seconds <= 4:
                 image = pygame.image.load(li[0])
                 screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
-            start(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, bonus)
+                stats.game_active = True
     pygame.display.flip()
 
 
