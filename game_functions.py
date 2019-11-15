@@ -31,6 +31,7 @@ def check_keydown_events(event, ai_settings, stats, screen, ship, bullets, shoot
         stats.game_active = False
         stats.paused = True
 
+
 def check_keyup_events(event, ship):
     """respond to key releases"""
     if event.key == pygame.K_RIGHT:
@@ -54,7 +55,7 @@ def fire_bullet(ai_settings, screen, ship, bullets, shoot_sound):
             shoot_sound.play()
 
 
-def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound):
+def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound, p_button, quit_button):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -62,6 +63,9 @@ def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus
             check_keydown_events(event, ai_settings, stats, screen, ship, bullets, shoot_sound)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_button(stats, p_button, quit_button, mouse_x, mouse_y)
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
@@ -72,8 +76,17 @@ def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus
                 grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
                 grenades.add(grenade)
 
+def check_button(stats, p_button, quit_button, mouse_x, mouse_y):
+    p_button.draw_button()
+    quit_button.draw_button()
+    if p_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True
+    elif quit_button.rect.collidepoint(mouse_x, mouse_y):
+        sys.exit()
+
+
 start_ticks = pygame.time.get_ticks()
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button, pause_button, li):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, quit_button, p_button, over_button, pause_button, li, mouse_x, mouse_y):
     """update images on the screen each pass through the loop"""
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))
@@ -105,12 +118,10 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     if not stats.game_active:
         if stats.ships_left == 0 or stats.timer == 0:
             over_button.draw_button()
-            p_button.draw_button()
-            quit_button.draw_button()
+            check_button(stats, p_button, quit_button, mouse_x, mouse_y)
         elif stats.paused:
             pause_button.draw_button()
-            p_button.draw_button()
-            quit_button.draw_button()
+            check_button(stats, p_button, quit_button, mouse_x, mouse_y)
         else:
             seconds = (pygame.time.get_ticks()-start_ticks)/1000
             if seconds <= 1:
@@ -126,12 +137,6 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
                 stats.game_active = True
             screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
     pygame.display.flip()
-
-
-def check_high_score(stats, sb):
-    """check to see if there's a new high score."""
-    if stats.score > stats.high_score:
-        stats.high_score = stats.score
 
 
 def update_bullets(ai_settings, screen, stats, sb, ship, aliens, meteors, bullets, explosions, explosion_anim, exp_sounds):
@@ -179,7 +184,6 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         ex.blitme()
         for e in exp_sounds:
             e.play()
-    check_high_score(stats, sb)
 
     if len(aliens) == 0:
         bullets.empty()
@@ -213,7 +217,6 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound)
         stats.pct += len(hits) * 10
         sb.prep_score()
         star_sound.play()
-    check_high_score(stats, sb)
 
 
 def create_fleet(ai_settings, screen, ship, aliens):

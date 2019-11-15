@@ -102,6 +102,8 @@ def run_game():
     #make a small play button
     p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Again', 100, 80, 40)
 
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
     pygame.mixer.music.play(loops=-1)
 
     amount = 0
@@ -113,7 +115,7 @@ def run_game():
         now = pygame.time.get_ticks()
         seconds = (now- last_update)/1000
         last_update = now
-        gf.check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound)
+        gf.check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound, p_button, q_button)
         if stats.game_active:
             if stats.timer == 0:
                 stats.game_active = False
@@ -129,6 +131,7 @@ def run_game():
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
             gf.update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
-        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, paused, li)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, paused, li,
+        mouse_x, mouse_y)
 
 run_game()
