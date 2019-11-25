@@ -131,7 +131,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             elif seconds <= 5:
                 image = li[0]
                 stats.game_active = True
-            screen.blit(image, (screen_rect.centerx - 40, screen_rect.centery))
+            screen.blit(image, (screen_rect.centerx - 60, screen_rect.centery-20))
     pygame.display.flip()
 
 

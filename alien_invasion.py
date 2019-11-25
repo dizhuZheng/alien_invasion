@@ -79,7 +79,10 @@ def run_game():
         file_name = 'n{}.png'.format(i)
         img = pygame.image.load(path.join(img_dir, file_name)).convert()
         img.set_colorkey((0, 0, 0))
-        ig = pygame.transform.scale(img, (120, 120))
+        if i == 1:
+            ig = pygame.transform.scale(img, (250, 250))
+        else:
+            ig = pygame.transform.scale(img, (120, 120))
         li.append(ig)
 
     explosions = Group()
