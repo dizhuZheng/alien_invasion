@@ -69,12 +69,10 @@ def check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus
         elif event.type == COUNT and stats.game_active:
             new_bonus = Bonus(screen, ai_settings)
             bonus.add(new_bonus)
-            for i in range(8):
+            for i in range(6):
                 new_meteor = Meteor(screen, ai_settings, meteor_images)
                 meteors.add(new_meteor)
-            for alien in aliens:
-                grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
-                grenades.add(grenade)
+
 
 def check_button(stats, p_button, quit_button, mouse_x, mouse_y):
     p_button.draw_button()
@@ -91,6 +89,8 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     #make the most recently drawn screen visible.
     screen.blit(ai_settings.image, (0, 0))
 
+    screen_rect = screen.get_rect()
+
     #redraw all bulltes behind ship and aliens
     for bullet in bullets.sprites():
         bullet.draw_bullet()
@@ -104,9 +104,6 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     for meteor in meteors.sprites():
         meteor.blitme()
 
-    for grenade in grenades.sprites():
-        grenade.blitme()
-
     for explosion in explosions.sprites():
         explosion.blitme()
 
@@ -118,7 +115,6 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
     if not stats.game_active:
         if stats.ships_left == 0 or stats.timer == 0:
             over_button.draw_button()
-            check_button(stats, p_button, quit_button, mouse_x, mouse_y)
         elif stats.paused:
             pause_button.draw_button()
             check_button(stats, p_button, quit_button, mouse_x, mouse_y)
@@ -135,7 +131,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors
             elif seconds <= 5:
                 image = li[0]
                 stats.game_active = True
-            screen.blit(image, (screen.get_rect().centerx, screen.get_rect().centery))
+            screen.blit(image, (screen_rect.centerx - 40, screen_rect.centery))
     pygame.display.flip()
 
 
@@ -187,7 +183,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
     if len(aliens) == 0:
         bullets.empty()
-        ai_settings.increase_speed()
+        ai_settings.increase_level()
         stats.level += 1
         sb.prep_level()
         ship.center_ship()
@@ -222,7 +218,7 @@ def check_bonus_ship_collisions(ai_settings, stats, sb, ship, bonus, star_sound)
 def create_fleet(ai_settings, screen, ship, aliens):
     """create a full fleet of aliens"""
     for j in range(2):
-        for i in range(6):
+        for i in range(ai_settings.alien_number):
             create_alien(ai_settings, screen, ship, aliens, i, j)
 
 
@@ -244,8 +240,6 @@ def check_fleet_edges(ai_settings, screen, aliens):
         if alien.check_edges():
             alien = Alien(ai_settings, screen)
             aliens.add(alien)
-            grenade = Grenade(screen, alien.rect.centerx, alien.rect.centery)
-            grenades.add(grenade)
 
 
 def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound):

@@ -28,6 +28,8 @@ def run_game():
 
     pygame.time.set_timer(COUNT, 2000)
 
+    FPS = 30
+
     bullets = Group()
 
     aliens = Group()
@@ -100,7 +102,7 @@ def run_game():
     q_button = Button(screen, screen_rect.centerx - 150, screen_rect.centery + 50, 'Quit', 100, 80, 40)
 
     #make a small play button
-    p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Again', 100, 80, 40)
+    p_button = Button(screen, screen_rect.centerx + 180, screen_rect.centery + 50, 'Play', 100, 80, 40)
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -110,10 +112,12 @@ def run_game():
 
     last_update = pygame.time.get_ticks()
 
+    fps_clock = pygame.time.Clock()
+
     while True:
         screen.blit(ai_settings.image, (0, 0))
         now = pygame.time.get_ticks()
-        seconds = (now- last_update)/1000
+        seconds = (now - last_update)/1000
         last_update = now
         gf.check_events(ai_settings, screen, stats, ship, aliens, bullets, COUNT, bonus, meteors, meteor_images, shoot_sound, p_button, q_button)
         if stats.game_active:
@@ -133,5 +137,6 @@ def run_game():
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, paused, li,
         mouse_x, mouse_y)
+        fps_clock.tick(FPS)
 
 run_game()

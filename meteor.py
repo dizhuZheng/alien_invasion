@@ -12,12 +12,12 @@ class Meteor(Bonus):
         self.speedy = random.randrange(12, 18)
         self.speedx = random.randrange(-8, 8)
         self.rot = 0
-        self.rot_speed = random.randrange(-10, 10)
+        self.rot_speed = random.randrange(-20, 20)
         self.last_update = pygame.time.get_ticks()
 
     def update(self):
         now = pygame.time.get_ticks()
-        if now - self.last_update > 100:
+        if now - self.last_update > 40:
             self.last_update = now
             self.rot = (self.rot + self.rot_speed) % 360
             new_image = pygame.transform.rotate(self.image_orig, self.rot)
