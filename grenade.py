@@ -26,3 +26,9 @@ class Grenade(Sprite):
         """draw the bullet to screen"""
         self.screen.blit(self.image, self.rect)
         self.update()
+
+
+    # def check_grenade_ship_collisions(self, ai_settings, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades):
+    #     hits = pygame.sprite.spritecollide(ship, grenades, True, pygame.sprite.collide_rect_ratio(.5))
+    #     if hits:
+    #         ship_hit(ai_settings, self.screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)

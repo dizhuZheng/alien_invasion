@@ -3,7 +3,6 @@ import sys
 import pygame
 from bullet import Bullet
 from alien import Alien
-from grenade import Grenade
 from pygame.sprite import Group
 from time import sleep
 import math
@@ -11,7 +10,6 @@ from bonus import Bonus
 from meteor import Meteor
 from explosion import Explosion
 
-grenades = Group()
 
 def check_keydown_events(event, ai_settings, stats, screen, ship, bullets, shoot_sound):
     """respond to keypresses"""
@@ -148,10 +146,6 @@ def update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets
     check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound)
 
 
-def update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats):
-    grenades.update()
-    check_grenade_ship_collisions(ai_settings, screen, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades)
-
 
 def check_meteor_ship_collisions(ai_settings, stats, sb, ship, meteors, screen, aliens, bullets, lose_sound):
     hits = pygame.sprite.spritecollide(ship, meteors, True, pygame.sprite.collide_circle)
@@ -188,12 +182,6 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         sb.prep_level()
         ship.center_ship()
         create_fleet(ai_settings, screen, ship, aliens)
-
-
-def check_grenade_ship_collisions(ai_settings, screen, aliens, meteors, lose_sound, bullets, stats, sb, ship, grenades):
-    hits = pygame.sprite.spritecollide(ship, grenades, True, pygame.sprite.collide_rect_ratio(.5))
-    if hits:
-        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
 
 
 def check_bullet_meteor_collisions(screen, bullets, meteors, explosions, explosion_anim, exp_sounds):
@@ -255,15 +243,11 @@ def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, los
     lose_sound.play()
     if stats.ships_left > 0:
         stats.ships_left -= 1
-
-        #update scoreboard
         sb.prep_ships()
-
         #empty the aliens ans bullets
         aliens.empty()
         bullets.empty()
         meteors.empty()
-
         #create a new fleet and ship
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()

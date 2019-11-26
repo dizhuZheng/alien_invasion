@@ -28,6 +28,7 @@ class Settings():
 
     def increase_level(self, stats):
         """increase level settings."""
+        stats.level += 1
         if stats.level == 2:
             self.image = pygame.image.load('images/space.jpg')
             self.alien_image = pygame.image.load('images/ufo.png')

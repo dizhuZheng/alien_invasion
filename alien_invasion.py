@@ -7,7 +7,6 @@ from os import path
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
-import time
 
 
 def run_game():
@@ -28,7 +27,7 @@ def run_game():
 
     pygame.time.set_timer(COUNT, 2000)
 
-    FPS = 30
+    FPS = 35
 
     bullets = Group()
 
@@ -136,7 +135,6 @@ def run_game():
             gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, meteors, bullets, explosions, explosion_anim, exp_sounds)
             gf.update_bonus(ai_settings, bonus, stats, sb, ship, star_sound)
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, lose_sound)
-            gf.update_grenades(ai_settings, screen, aliens, meteors, lose_sound, bullets, sb, ship, stats)
             gf.update_meteor(ai_settings, meteors, stats, sb, ship, screen, aliens, bullets, lose_sound)
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, meteors, explosions, bonus, q_button, p_button, over_button, paused, li,
         mouse_x, mouse_y)
