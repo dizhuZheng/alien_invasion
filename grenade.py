@@ -12,13 +12,17 @@ class Grenade(Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.y = float(self.rect.y)
+        self.last_update = pygame.time.get_ticks()
         self.speed_factor = 15
+
 
     def update(self):
         """move the bullet up the screen"""
         self.y += self.speed_factor
         self.rect.y = self.y
 
+
     def blitme(self):
         """draw the bullet to screen"""
         self.screen.blit(self.image, self.rect)
+        self.update()

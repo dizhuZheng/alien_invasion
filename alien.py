@@ -1,6 +1,6 @@
 import random
 import pygame
-from pygame.sprite import Sprite
+from pygame.sprite import Sprite, Group
 from grenade import Grenade
 
 class Alien(Sprite):
@@ -18,16 +18,26 @@ class Alien(Sprite):
         self.rect.y = random.randrange(-50, -30)
         self.numberx = random.randrange(-8, 10)
         self.numbery = random.randrange(1, 10)
+        self.last_update = pygame.time.get_ticks()
+        self.last = pygame.time.get_ticks()
+        self.grenades = Group()
 
     def blitme(self):
         """Draw the alien at its current location """
         self.screen.blit(self.image, self.rect)
+        for grenade in self.grenades.sprites():
+            grenade.blitme()
 
 
     def update(self):
-        """move the alien up and right"""
+        """move the alien and grenades"""
         self.rect.x += self.numberx
         self.rect.y += self.numbery
+        now = pygame.time.get_ticks()
+        if now - self.last_update > 800:
+            self.last_update = now
+            grenade = Grenade(self.screen, self.rect.centerx, self.rect.centery)
+            self.grenades.add(grenade)
 
 
     def check_edges(self):
@@ -36,6 +46,3 @@ class Alien(Sprite):
             self.kill()
             return True
         return False
-
-
-    def make_grenade(self):
