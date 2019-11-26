@@ -1,6 +1,7 @@
 import random
 import pygame
 from pygame.sprite import Sprite
+from grenade import Grenade
 
 class Alien(Sprite):
     """alien in the fleet"""
@@ -35,3 +36,6 @@ class Alien(Sprite):
             self.kill()
             return True
         return False
+
+
+    def make_grenade(self):

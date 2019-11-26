@@ -183,7 +183,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
     if len(aliens) == 0:
         bullets.empty()
-        ai_settings.increase_level()
+        ai_settings.increase_level(stats)
         stats.level += 1
         sb.prep_level()
         ship.center_ship()

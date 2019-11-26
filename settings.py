@@ -1,4 +1,5 @@
 import pygame
+
 class Settings():
     """A class to store all settings for alien invasion."""
 
@@ -25,8 +26,11 @@ class Settings():
         self.bonus_points = 30
 
 
-    def increase_level(self):
+    def increase_level(self, stats):
         """increase level settings."""
-        self.image = pygame.image.load('images/space.jpg')
-        self.alien_image = pygame.image.load('images/ufo.png')
-        self.alien_number = 7
+        if stats.level == 2:
+            self.image = pygame.image.load('images/space.jpg')
+            self.alien_image = pygame.image.load('images/ufo.png')
+            self.alien_number = 7
+        elif stats.level == 3:
+            pass

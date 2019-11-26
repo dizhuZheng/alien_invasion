@@ -8,6 +8,10 @@ class GameStats():
         self.paused = False
         self.timer = 120
         self.pct = 100
+        self.ships_left = self.ai_settings.ship_limit
+        self.score = 0
+        self.level = 1
+        self.pct = 100
 
     def reset_stats(self):
         """Initialize stats that can change during the game"""
